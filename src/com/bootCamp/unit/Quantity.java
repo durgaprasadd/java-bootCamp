@@ -1,7 +1,6 @@
 package com.bootCamp.unit;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 class Quantity {
     private final BigDecimal value;
@@ -13,7 +12,7 @@ class Quantity {
     }
 
     private BigDecimal convertToBaseUnit() {
-        return this.unit.convertToInches(this.value);
+        return this.unit.convertToMilliMeter(this.value);
     }
 
     @Override
