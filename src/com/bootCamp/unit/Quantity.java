@@ -11,8 +11,8 @@ class Quantity {
         this.unit = unit;
     }
 
-    private int convertToBaseUnit() {
-        return this.unit.convertToMilliMeter(this.value);
+    private BigDecimal convertToBaseUnit() {
+        return this.unit.convertToBaseUnit(this.value);
     }
 
     @Override
@@ -23,11 +23,18 @@ class Quantity {
         }
         Quantity quantity = (Quantity) anotherQuantity;
 
-        return this.unit.isSameType(quantity.unit) && this.convertToBaseUnit() == quantity.convertToBaseUnit();
+        return this.unit.getClass() == quantity.unit.getClass() && this.convertToBaseUnit().intValue() == quantity.convertToBaseUnit().intValue();
     }
 
     Quantity add(Quantity anotherQuantity) throws Exception {
-        if (!this.unit.isSameType(anotherQuantity.unit)) throw new Exception("Mismatching Types");
-        return new Quantity(this.value.add(anotherQuantity.value), this.unit);
+        if (this.unit.getClass() != anotherQuantity.unit.getClass()) throw new Exception("Mismatching Types");
+
+        BigDecimal totalBaseValue = this.convertToBaseUnit().add(anotherQuantity.convertToBaseUnit());
+
+        Unit standardUnit = this.unit.getStandardUnit();
+
+        BigDecimal valueInStandardUnit = this.unit.covertTo(totalBaseValue);
+
+        return new Quantity(valueInStandardUnit, standardUnit);
     }
 }
