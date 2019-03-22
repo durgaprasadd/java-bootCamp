@@ -46,4 +46,25 @@ class QuantityTest {
         assertEquals(oneCM, tenMM);
     }
 
+    @Test
+    void oneGallonIsEqualsToThreePointSevenNineLitres() {
+        Quantity oneGallon = new Quantity(new BigDecimal("1"), Unit.GALLON);
+        Quantity threeLitres = new Quantity(new BigDecimal("3.79"), Unit.LITRE);
+        assertEquals(oneGallon, threeLitres);
+    }
+
+    @Test
+    void shouldReturnFalseForDifferentUnits() {
+        Quantity oneGallon = new Quantity(new BigDecimal("1"), Unit.GALLON);
+        Quantity oneMM = new Quantity(new BigDecimal("1"), Unit.MM);
+        assertNotEquals(oneGallon, oneMM);
+    }
+
+    @Test
+    void shouldAddTwoQuantitiesOfSameUnit() throws Exception {
+        Quantity twoInches = new Quantity(new BigDecimal("2"), Unit.INCH);
+        Quantity threeInches = new Quantity(new BigDecimal("3"), Unit.INCH);
+        Quantity fiveInches = new Quantity(new BigDecimal("5"), Unit.INCH);
+        assertEquals(fiveInches, twoInches.add(threeInches));
+    }
 }

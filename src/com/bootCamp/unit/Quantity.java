@@ -11,7 +11,7 @@ class Quantity {
         this.unit = unit;
     }
 
-    private BigDecimal convertToBaseUnit() {
+    private int convertToBaseUnit() {
         return this.unit.convertToMilliMeter(this.value);
     }
 
@@ -22,6 +22,12 @@ class Quantity {
             return false;
         }
         Quantity quantity = (Quantity) anotherQuantity;
-        return this.convertToBaseUnit().equals(quantity.convertToBaseUnit());
+
+        return this.unit.isSameType(quantity.unit) && this.convertToBaseUnit() == quantity.convertToBaseUnit();
+    }
+
+    Quantity add(Quantity anotherQuantity) throws Exception {
+        if (!this.unit.isSameType(anotherQuantity.unit)) throw new Exception("Mismatching Types");
+        return new Quantity(this.value.add(anotherQuantity.value), this.unit);
     }
 }
